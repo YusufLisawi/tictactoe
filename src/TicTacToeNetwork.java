@@ -73,16 +73,14 @@ public class TicTacToeNetwork {
     }
 
     private void rollbackGUI() {
-        SwingUtilities.invokeLater(() -> {
-            game.getGui().getRdoHost().setEnabled(true);
-            game.getGui().getRdoPlayer().setEnabled(true);
-            if (game.getGui().getRdoHost().isSelected()) {
-                game.getGui().toggleField(true);
-            }
-            else if (game.getGui().getRdoPlayer().isSelected()) {
-                game.getGui().toggleField(false);
-            }
-        });
+        game.getGui().getRdoHost().setEnabled(true);
+        game.getGui().getRdoPlayer().setEnabled(true);
+        if (game.getGui().getRdoHost().isSelected()) {
+            game.getGui().toggleField(true);
+        }
+        else if (game.getGui().getRdoPlayer().isSelected()) {
+            game.getGui().toggleField(false);
+        }
     }
 
     private void initializeStreams() throws IOException {
@@ -92,8 +90,7 @@ public class TicTacToeNetwork {
     }
 
     public Move receiveMove() throws IOException, ClassNotFoundException {
-        Move move = (Move) in.readObject();
-        return move;
+        return (Move) in.readObject();
     }
 
     public void sendMove(int row, int col) throws IOException {
@@ -113,7 +110,6 @@ public class TicTacToeNetwork {
         }
     }
 
-    // Methods to handle transmission of grid size
     private void sendGridSize(int gridSize) {
         try {
             out.writeInt(gridSize);

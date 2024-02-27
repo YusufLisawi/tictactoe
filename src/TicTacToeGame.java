@@ -113,70 +113,88 @@ public class TicTacToeGame {
     }
 
     public char getWinner() {
+        int winLength = 3;
+
+        // Check rows and columns
         for (int i = 0; i < gridSize; i++) {
             int sumXRow = 0, sumORow = 0;
             int sumXCol = 0, sumOCol = 0;
-            int sumXTL = 0, sumOTL = 0;
-            int sumXTR = 0, sumOTR = 0;
 
             for (int j = 0; j < gridSize; j++) {
                 // Rows
                 if (grid[i][j] == 'X') {
                     sumXRow++;
-                    sumORow = 0; // Reset sum O count
+                    sumORow = 0;
                 } else if (grid[i][j] == 'O') {
                     sumORow++;
-                    sumXRow = 0; // Reset sum X count
+                    sumXRow = 0;
                 } else {
-                    sumXRow = sumORow = 0; // Reset both counts
+                    sumXRow = sumORow = 0;
                 }
 
                 // Columns
                 if (grid[j][i] == 'X') {
                     sumXCol++;
-                    sumOCol = 0; // Reset sum O count
+                    sumOCol = 0;
                 } else if (grid[j][i] == 'O') {
                     sumOCol++;
-                    sumXCol = 0; // Reset sum X count
+                    sumXCol = 0;
                 } else {
-                    sumXCol = sumOCol = 0; // Reset both counts
+                    sumXCol = sumOCol = 0;
                 }
 
-                // Diagonal starting from top left
-                if (grid[j][j] == 'X') {
-                    sumXTL++;
-                    sumOTL = 0; // Reset sum O count
-                } else if (grid[j][j] == 'O') {
-                    sumOTL++;
-                    sumXTL = 0; // Reset sum X count
-                } else {
-                    sumXTL = sumOTL = 0; // Reset both counts
-                }
-
-                // Diagonal starting from top right
-                if (grid[j][gridSize - 1 - j] == 'X') {
-                    sumXTR++;
-                    sumOTR = 0; // Reset sum O count
-                } else if (grid[j][gridSize - 1 - j] == 'O') {
-                    sumOTR++;
-                    sumXTR = 0; // Reset sum X count
-                } else {
-                    sumXTR = sumOTR = 0; // Reset both counts
-                }
-
-                // Check for a winner in this row, column, or diagonal
-                if (sumXRow >= 3 || sumXCol >= 3 || sumXTL >= 3 || sumXTR >= 3) {
+                // Check for a winner in this row or column
+                if (sumXRow == winLength || sumXCol == winLength) {
                     return 'X';
                 }
-                if (sumORow >= 3 || sumOCol >= 3 || sumOTL >= 3 || sumOTR >= 3) {
+                if (sumORow == winLength || sumOCol == winLength) {
                     return 'O';
+                }
+            }
+        }
+
+        // Check diagonals
+        for (int i = 0; i <= gridSize - winLength; i++) {
+            for (int j = 0; j <= gridSize - winLength; j++) {
+                int sumXDiag1 = 0, sumODiag1 = 0;
+                int sumXDiag2 = 0, sumODiag2 = 0;
+
+                for (int k = 0; k < winLength; k++) {
+                    // Diagonal from top left to bottom right
+                    if (grid[i + k][j + k] == 'X') {
+                        sumXDiag1++;
+                        sumODiag1 = 0;
+                    } else if (grid[i + k][j + k] == 'O') {
+                        sumODiag1++;
+                        sumXDiag1 = 0;
+                    } else {
+                        sumXDiag1 = sumODiag1 = 0;
+                    }
+
+                    // Diagonal from top right to bottom left
+                    if (grid[i + k][j + winLength - 1 - k] == 'X') {
+                        sumXDiag2++;
+                        sumODiag2 = 0;
+                    } else if (grid[i + k][j + winLength - 1 - k] == 'O') {
+                        sumODiag2++;
+                        sumXDiag2 = 0;
+                    } else {
+                        sumXDiag2 = sumODiag2 = 0;
+                    }
+
+                    // Check for a winner in this diagonal
+                    if (sumXDiag1 == winLength || sumXDiag2 == winLength) {
+                        return 'X';
+                    }
+                    if (sumODiag1 == winLength || sumODiag2 == winLength) {
+                        return 'O';
+                    }
                 }
             }
         }
 
         return ' ';
     }
-
 
     public TicTacToeGUI getGui() {
         return gui;

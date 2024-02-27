@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 public class TicTacToeGUI extends JFrame implements ActionListener {
     private JButton[][] gridBtn;
+    private ChatPanel chatPanel;
     private JLabel lblInfo;
     private JLabel lblGridSize;
     private JRadioButton rdoHost;
